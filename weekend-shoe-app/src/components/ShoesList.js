@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import api from '../api/api';
+import { NavLink } from 'react-router-dom';
 
 const Ul = styled.ul`
     display: flex;
@@ -22,7 +23,6 @@ const Li = styled.li`
 `;
 
 const ShoesList = (props) => {
-    const [shoesStoreData, setShoesStoreData] = useState([]);
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -30,17 +30,17 @@ const ShoesList = (props) => {
             try {
                 props.setIsLoading(true);
                 const response = await api.get('/shoes');
-                const data = response.data;
-                setShoesStoreData(data);
+                const dataArray = response.data;
+                props.setShoesData(dataArray);
             } catch (err) {
                 if (err.response) {
                     // Not in the 200 response range
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
+                    console.log(err.response.data);
+                    console.log(err.response.status);
+                    console.log(err.response.headers);
                 } else {
-                    console.log(error.message);
-                    setError(error.message);
+                    console.log(err.message);
+                    setError(err.message);
                 }
             } finally {
                 props.setIsLoading(false);
@@ -48,16 +48,19 @@ const ShoesList = (props) => {
         };
 
         getData();
-    }, []);
+    }, [props.setIsLoading]);
 
     const onRead = () => {
-        const res = shoesStoreData.map((shoe) => {
+        console.log(props.shoesData);
+        const res = props.shoesData.map((shoe) => {
             return (
                 <Li key={shoe.id} id={shoe.id}>
-                    <h3>{shoe.brand}</h3>
-                    <h5>Size: {shoe.size}</h5>
-                    <h5>Color: {shoe.color}</h5>
-                    <img src={shoe.img} alt=''></img>
+                    <NavLink to={`/shoes/` + shoe.id}>
+                        <h3>{shoe.brand}</h3>
+                        <h5>Size: {shoe.size}</h5>
+                        <h5>Color: {shoe.color}</h5>
+                        <img src={shoe.img} alt='{shoe.brand}'></img>
+                    </NavLink>
                 </Li>
             );
         });
@@ -73,7 +76,7 @@ const ShoesList = (props) => {
                 {!isLoading && !error && !shoesStoreData && (
                     <p>Found no shoes</p>
                 )} */}
-                    {shoesStoreData && <>{onRead()}</>}
+                    {props.shoesData && <>{onRead()}</>}
                 </Ul>
             </section>
         </div>

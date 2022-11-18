@@ -7,7 +7,7 @@ import ShoeDetail from './components/ShoeDetail';
 import React, { useState } from 'react';
 
 function App() {
-    const [shoesStoreData, setShoesStoreData] = useState(null);
+    const [shoesStoreData, setShoesStoreData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     return (
         <div className='App'>
@@ -17,21 +17,27 @@ function App() {
                 <Routes>
                     <Route
                         path='/'
-                        element={<Navigate replace to='/homePage'></Navigate>}
+                        element={<Navigate replace to='/home'></Navigate>}
                     />
-                    <Route path='/homePage' element={<HomePage />} />
+                    <Route path='/home' element={<HomePage />} />
                     <Route
                         path='/shoes'
                         element={
                             <ShoesList
                                 setIsLoading={setIsLoading}
                                 setShoesData={setShoesStoreData}
+                                shoesData={shoesStoreData}
                             />
                         }
                     />
                     <Route
-                        path='/shoes/:shoeId'
-                        element={<ShoeDetail data={shoesStoreData} />}
+                        path='/shoes/:id'
+                        element={
+                            <ShoeDetail
+                                shoesData={shoesStoreData}
+                                setIsLoading={setIsLoading}
+                            />
+                        }
                     />
                 </Routes>
             </main>
