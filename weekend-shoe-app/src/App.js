@@ -4,7 +4,7 @@ import NavBar from './components/NavBar';
 import HomePage from './components/HomePage';
 import ShoesList from './components/ShoesList';
 import ShoeDetail from './components/ShoeDetail';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 function App() {
     const [shoesStoreData, setShoesStoreData] = useState(null);
@@ -19,11 +19,11 @@ function App() {
                     />
                     <Route path='/homePage' element={<HomePage />} />
                     <Route
-                        path='/products'
+                        path='/shoes'
                         element={<ShoesList setData={shoesStoreData} />}
                     />
                     <Route
-                        path='/products/:productId'
+                        path='/shoes/:shoeId'
                         element={<ShoeDetail data={shoesStoreData} />}
                     />
                 </Routes>

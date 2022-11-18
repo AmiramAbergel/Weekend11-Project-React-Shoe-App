@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ShoeDetail = () => {
+const ShoeDetail = (props) => {
     return;
 };
 
