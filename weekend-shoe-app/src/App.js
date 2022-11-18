@@ -8,9 +8,11 @@ import React, { useState } from 'react';
 
 function App() {
     const [shoesStoreData, setShoesStoreData] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     return (
         <div className='App'>
             <NavBar />
+            {isLoading && <p>Loading...</p>}
             <main>
                 <Routes>
                     <Route
@@ -20,7 +22,12 @@ function App() {
                     <Route path='/homePage' element={<HomePage />} />
                     <Route
                         path='/shoes'
-                        element={<ShoesList setData={shoesStoreData} />}
+                        element={
+                            <ShoesList
+                                setIsLoading={setIsLoading}
+                                setShoesData={setShoesStoreData}
+                            />
+                        }
                     />
                     <Route
                         path='/shoes/:shoeId'
