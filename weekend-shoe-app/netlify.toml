@@ -1,7 +1,7 @@
 [build]
   command = "npm run build"
   publish="weekend-shoe-app/build"
-  base = "weekend-shoe-app"
+  base = "weekend-shoe-app/"
 
   [[redirects]]
   from = "/*"
