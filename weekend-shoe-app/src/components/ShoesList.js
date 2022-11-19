@@ -22,16 +22,16 @@ const Li = styled.li`
     }
 `;
 
-const ShoesList = (props) => {
+const ShoesList = ({ setIsLoading, setShoesData, shoesData }) => {
     const [error, setError] = useState('');
-
+    console.log(error);
     useEffect(() => {
         const getData = async () => {
             try {
-                props.setIsLoading(true);
+                setIsLoading(true);
                 const response = await api.get('/shoes');
                 const dataArray = response.data;
-                props.setShoesData(dataArray);
+                setShoesData(dataArray);
             } catch (err) {
                 if (err.response) {
                     // Not in the 200 response range
@@ -43,15 +43,15 @@ const ShoesList = (props) => {
                     setError(err.message);
                 }
             } finally {
-                props.setIsLoading(false);
+                setIsLoading(false);
             }
         };
 
         getData();
-    }, [props.setIsLoading]);
+    }, [setIsLoading, setShoesData]);
 
     const onRead = () => {
-        const res = props.shoesData.map((shoe) => {
+        const res = shoesData.map((shoe) => {
             return (
                 <Li key={shoe.id} id={shoe.id}>
                     <NavLink
@@ -82,7 +82,7 @@ const ShoesList = (props) => {
                 {!isLoading && !error && !shoesStoreData && (
                     <p>Found no shoes</p>
                 )} */}
-                    {props.shoesData && <>{onRead()}</>}
+                    {shoesData && <>{onRead()}</>}
                 </Ul>
             </section>
         </div>
