@@ -5,6 +5,7 @@ import HomePage from './components/HomePage';
 import ShoesList from './components/ShoesList';
 import ShoeDetail from './components/ShoeDetail';
 import React, { useState } from 'react';
+import AddShoe from './components/AddShoe';
 
 function App() {
     const [shoesStoreData, setShoesStoreData] = useState([]);
@@ -38,6 +39,10 @@ function App() {
                                 setIsLoading={setIsLoading}
                             />
                         }
+                    />
+                    <Route
+                        path='/add-shoe'
+                        element={<AddShoe setIsLoading={setIsLoading} />}
                     />
                 </Routes>
             </main>

@@ -64,6 +64,16 @@ const NavBar = (props) => {
                             Shoes List
                         </StyledActiveLink>
                     </li>
+                    <li>
+                        <StyledActiveLink
+                            className={(navData) =>
+                                navData.isActive ? 'active' : ''
+                            }
+                            to='/add-shoe'
+                        >
+                            Add Shoe
+                        </StyledActiveLink>
+                    </li>
                 </ul>
             </nav>
         </Container>

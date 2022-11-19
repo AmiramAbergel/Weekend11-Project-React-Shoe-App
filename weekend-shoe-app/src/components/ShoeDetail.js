@@ -3,7 +3,7 @@ import api from '../api/api';
 import styled from '@emotion/styled';
 
 import { NavLink, useParams } from 'react-router-dom';
-import { ClassNames } from '@emotion/react';
+import {} from '@emotion/react';
 
 const ShoeDetail = (props) => {
     const [shoesData, setShoesData] = useState(props.shoesData);
