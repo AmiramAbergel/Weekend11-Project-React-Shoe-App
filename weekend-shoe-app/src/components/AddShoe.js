@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import api from '../api/api';
 const AddShoe = (props) => {
-    const [error, setError] = useState('');
-    const [newShoeInfo, setNewShoeInfo] = useState({
+    const shoeObj = {
         brand: '',
         size: '',
         img: '',
@@ -11,7 +10,13 @@ const AddShoe = (props) => {
         available: '',
         id: '',
         detail: '',
-    });
+    };
+    const [error, setError] = useState('');
+    const [newShoeInfo, setNewShoeInfo] = useState(shoeObj);
+
+    const clearData = () => {
+        setNewShoeInfo(shoeObj);
+    };
 
     const handleChange = ({ target }) => {
         setNewShoeInfo((prev) => ({ ...prev, [target.name]: target.value }));
@@ -20,10 +25,13 @@ const AddShoe = (props) => {
     const onAddShoe = async (newShoe) => {
         try {
             props.setIsLoading(true);
-            await api.post(
+            console.log(newShoe);
+            const response = await api.post(
                 `https://637631bab5f0e1eb8505360f.mockapi.io/shoes/`,
                 newShoe
             );
+            const newShoeDataObj = response.data;
+            props.setShoesData((prev) => [...prev, newShoeDataObj]);
         } catch (err) {
             if (err.response) {
                 // Not in the 200 response range
@@ -40,8 +48,9 @@ const AddShoe = (props) => {
         }
     };
 
-    const newShoeFormDataHandler = () => {
-        onAddShoe();
+    const newShoeFormDataHandler = (event) => {
+        event.preventDefault();
+        onAddShoe(newShoeInfo);
     };
 
     const onDeleteShoe = () => {};
@@ -50,7 +59,7 @@ const AddShoe = (props) => {
         <div className='form-container'>
             <form onSubmit={newShoeFormDataHandler}>
                 <div>
-                    <h3>Add New Shoe</h3>
+                    <h2>Add New Shoe</h2>
                 </div>
                 <div>
                     <label htmlFor='brand'> Brand Name: </label>

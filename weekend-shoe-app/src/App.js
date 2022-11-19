@@ -42,7 +42,12 @@ function App() {
                     />
                     <Route
                         path='/add-shoe'
-                        element={<AddShoe setIsLoading={setIsLoading} />}
+                        element={
+                            <AddShoe
+                                setShoesData={setShoesStoreData}
+                                setIsLoading={setIsLoading}
+                            />
+                        }
                     />
                 </Routes>
             </main>
