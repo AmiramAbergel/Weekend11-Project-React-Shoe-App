@@ -1,9 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react';
 import api from '../api/api';
 import styled from '@emotion/styled';
-
 import { NavLink, useParams } from 'react-router-dom';
-import {} from '@emotion/react';
+import Btn from './Btn';
+import { Div } from './AddShoe';
+
+const Section = styled.section`
+    margin: 4px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    width: 40%;
+    background-color: FloralWhite;
+    &:hover {
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+`;
 
 const ShoeDetail = (props) => {
     const [shoesData, setShoesData] = useState(props.shoesData);
@@ -91,13 +102,10 @@ const ShoeDetail = (props) => {
         });
         return found.map((shoe) => {
             return (
-                <div className='form-container' key={shoe.id}>
+                <Div className='form-container' key={shoe.id}>
                     <form onSubmit={handleSubmit} id={shoe.id}>
+                        <h1>Shoe detail - edit section</h1>
                         <div>
-                            <h3>{shoe.brand}</h3>
-                        </div>
-                        <div>
-                            <h5>Size: {shoe.size}</h5>
                             <label htmlFor='size'> Size: </label>
                             <input
                                 type='number'
@@ -109,10 +117,9 @@ const ShoeDetail = (props) => {
                             />
                         </div>
                         <div>
-                            <h5>Color: {shoe.color}</h5>
                             <label htmlFor='color'> Color: </label>
                             <input
-                                type='number'
+                                type='color'
                                 name='color'
                                 placeholder={shoe.color}
                                 value={shoeInfo.color}
@@ -123,7 +130,7 @@ const ShoeDetail = (props) => {
                         <div>
                             <label htmlFor='text'> Tell us </label>
                             <input
-                                type='text'
+                                type='textInput'
                                 name='text'
                                 placeholder='Any notes?'
                                 value={shoeInfo.text}
@@ -132,35 +139,46 @@ const ShoeDetail = (props) => {
                             />
                         </div>
                         <div>
-                            <button onClick={() => onDeleteShoe(shoe)}>
+                            <Btn onClick={() => onDeleteShoe(shoe)}>
                                 Delete this shoe
-                            </button>
-                        </div>
-                        <div>
-                            <button>Submit Changes</button>
+                            </Btn>
+                            <Btn>Submit Changes</Btn>
                         </div>
                     </form>
-                    <section>
-                        <h2>PRODUCT DETAILS</h2>
-                        <img src={shoe.img} alt='{shoe.brand}'></img>
-                        <h5>In stock?: {shoe.available ? 'Yes!' : 'No...'}</h5>
-                        <h5>Price: {shoe.price}</h5>
-                    </section>
-                </div>
+                    <Section>
+                        <h2>Additional Product Details</h2>
+                        <div>
+                            <h3>{shoe.brand}</h3>
+                            <img src={shoe.img} alt='{shoe.brand}'></img>
+                            <h5>Size: {shoe.size}</h5>
+                            <h5>Color: {shoe.color}</h5>
+                            <h5>
+                                In stock?: {shoe.available ? 'Yes!' : 'No...'}
+                            </h5>
+                            <h5>Price: {shoe.price}</h5>
+                        </div>
+                    </Section>
+                </Div>
             );
         });
     };
 
     return (
         <section>
-            <h1>Shoe Detail</h1>
-            {!props.isLoading && !error && shoesData && (
-                <>{dataHandler(shoesData, params.id)}</>
-            )}
+            <div>
+                {!props.isLoading && !error && shoesData && (
+                    <>{dataHandler(shoesData, params.id)}</>
+                )}
+            </div>
 
-            <button>
-                <NavLink to={`/shoes`}>Back</NavLink>
-            </button>
+            <Btn>
+                <NavLink
+                    style={{ textDecoration: 'none', color: 'white' }}
+                    to={`/shoes`}
+                >
+                    Back
+                </NavLink>
+            </Btn>
         </section>
     );
 };

@@ -1,5 +1,25 @@
+import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import api from '../api/api';
+import Btn from './Btn';
+
+export const Div = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+const Form = styled.form`
+    margin: 4px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    width: 40%;
+    background-color: FloralWhite;
+    &:hover {
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+`;
+
 const AddShoe = (props) => {
     const shoeObj = {
         brand: '',
@@ -7,7 +27,7 @@ const AddShoe = (props) => {
         img: '',
         price: '',
         color: '',
-        available: '',
+        available: true,
         id: '',
         detail: '',
     };
@@ -19,13 +39,13 @@ const AddShoe = (props) => {
     };
 
     const handleChange = ({ target }) => {
+        console.log(target);
         setNewShoeInfo((prev) => ({ ...prev, [target.name]: target.value }));
     };
 
     const onAddShoe = async (newShoe) => {
         try {
             props.setIsLoading(true);
-            console.log(newShoe);
             const response = await api.post(
                 `https://637631bab5f0e1eb8505360f.mockapi.io/shoes/`,
                 newShoe
@@ -56,8 +76,8 @@ const AddShoe = (props) => {
     const onDeleteShoe = () => {};
 
     return (
-        <div className='form-container'>
-            <form onSubmit={newShoeFormDataHandler}>
+        <Div className='form-container'>
+            <Form onSubmit={newShoeFormDataHandler}>
                 <div>
                     <h2>Add New Shoe</h2>
                 </div>
@@ -84,7 +104,7 @@ const AddShoe = (props) => {
                 <div>
                     <label htmlFor='img'> Image: </label>
                     <input
-                        type='number'
+                        type='url'
                         name='img'
                         placeholder={'Valid Image URL'}
                         value={newShoeInfo.img}
@@ -102,12 +122,21 @@ const AddShoe = (props) => {
                     />
                 </div>
                 <div>
-                    <label htmlFor='available'> Available Status: </label>
+                    <h3>Available Status:</h3>
+                    <label htmlFor='available'> Available </label>
                     <input
-                        type='bool'
+                        type='radio'
                         name='available'
-                        placeholder={'TRUE/FALSE'}
-                        value={newShoeInfo.available}
+                        checked={newShoeInfo.available === true ? true : false}
+                        value={true}
+                        onChange={handleChange}
+                    />
+                    <label htmlFor='unAvailable'> Un-Available </label>
+                    <input
+                        type='radio'
+                        name='available'
+                        checked={newShoeInfo.available === true ? true : false}
+                        value={true}
                         onChange={handleChange}
                     />
                 </div>
@@ -119,11 +148,11 @@ const AddShoe = (props) => {
                     onChange={handleChange}
                 ></textarea>
                 <div>
-                    <button>Save&Add</button>
-                    <button onClick={() => onDeleteShoe()}>Discard Item</button>
+                    <Btn>Save&Add</Btn>
+                    <Btn onClick={() => onDeleteShoe()}>Discard Item</Btn>
                 </div>
-            </form>
-        </div>
+            </Form>
+        </Div>
     );
 };
 

@@ -16,7 +16,7 @@ const Li = styled.li`
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     transition: 0.3s;
     width: 40%;
-
+    background-color: FloralWhite;
     &:hover {
         box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     }
@@ -51,14 +51,18 @@ const ShoesList = (props) => {
     }, [props.setIsLoading]);
 
     const onRead = () => {
-        console.log(props.shoesData);
         const res = props.shoesData.map((shoe) => {
             return (
                 <Li key={shoe.id} id={shoe.id}>
-                    <NavLink to={`/shoes/` + shoe.id}>
+                    <NavLink
+                        style={{ textDecoration: 'none' }}
+                        to={`/shoes/` + shoe.id}
+                    >
                         <h3>{shoe.brand}</h3>
                         <h5>Size: {shoe.size}</h5>
                         <h5>Color: {shoe.color}</h5>
+                        <h5>Price (USD) : {shoe.price}</h5>
+
                         <img src={shoe.img} alt='{shoe.brand}'></img>
                     </NavLink>
                 </Li>
