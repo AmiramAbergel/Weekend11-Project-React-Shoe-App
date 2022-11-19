@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import api from '../api/api';
 import Btn from './Btn';
+import { NavLink } from 'react-router-dom';
 
 export const Div = styled.div`
     display: flex;
@@ -20,13 +21,35 @@ const Form = styled.form`
     }
 `;
 
+const BackBtn = styled.button`
+    background-color: #3dd1e7;
+    border: 0 solid #e5e7eb;
+    box-sizing: border-box;
+    color: #000000;
+    display: flex;
+    font-size: 1rem;
+    font-weight: 700;
+    justify-content: center;
+    line-height: 1.75rem;
+    padding: 0.75rem 1.65rem;
+    position: relative;
+    text-align: center;
+    text-decoration: none #000000 solid;
+    width: 100%;
+    max-width: 460px;
+    position: relative;
+    cursor: pointer;
+    transform: rotate(-2deg);
+    border: 1px solid black;
+`;
+
 const AddShoe = (props) => {
     const shoeObj = {
         brand: '',
         size: '',
-        img: '',
+        img: 'https://assets.sneakersgenerator.com/extensions/kicks/images/sneakers/10.png',
         price: '',
-        color: '',
+        color: '#ffffff',
         available: true,
         id: '',
         detail: '',
@@ -46,10 +69,7 @@ const AddShoe = (props) => {
     const onAddShoe = async (newShoe) => {
         try {
             props.setIsLoading(true);
-            const response = await api.post(
-                `https://637631bab5f0e1eb8505360f.mockapi.io/shoes/`,
-                newShoe
-            );
+            const response = await api.post(`/shoes`, newShoe);
             const newShoeDataObj = response.data;
             props.setShoesData((prev) => [...prev, newShoeDataObj]);
         } catch (err) {
@@ -65,6 +85,7 @@ const AddShoe = (props) => {
             }
         } finally {
             props.setIsLoading(false);
+            clearData();
         }
     };
 
@@ -73,10 +94,16 @@ const AddShoe = (props) => {
         onAddShoe(newShoeInfo);
     };
 
-    const onDeleteShoe = () => {};
-
     return (
         <Div className='form-container'>
+            <BackBtn>
+                <NavLink
+                    style={{ textDecoration: 'none', color: 'white' }}
+                    to={`/shoes`}
+                >
+                    Back
+                </NavLink>
+            </BackBtn>
             <Form onSubmit={newShoeFormDataHandler}>
                 <div>
                     <h2>Add New Shoe</h2>
@@ -114,7 +141,7 @@ const AddShoe = (props) => {
                 <div>
                     <label htmlFor='color'> Color: </label>
                     <input
-                        type='number'
+                        type='color'
                         name='color'
                         placeholder={'Valid color'}
                         value={newShoeInfo.color}
@@ -149,7 +176,6 @@ const AddShoe = (props) => {
                 ></textarea>
                 <div>
                     <Btn>Save&Add</Btn>
-                    <Btn onClick={() => onDeleteShoe()}>Discard Item</Btn>
                 </div>
             </Form>
         </Div>

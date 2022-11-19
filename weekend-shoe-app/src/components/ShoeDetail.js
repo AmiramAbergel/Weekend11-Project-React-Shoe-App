@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import api from '../api/api';
 import styled from '@emotion/styled';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useParams, useNavigate } from 'react-router-dom';
 import Btn from './Btn';
 import { Div } from './AddShoe';
 
@@ -30,6 +30,7 @@ const ShoeDetail = (props) => {
     const colorInputRef = useRef();
     const textInputRef = useRef();
     const [shoeById, setShoeById] = useState({});
+    const navigate = useNavigate();
 
     const handleChange = ({ target }) => {
         setShoeInfo((prev) => ({ ...prev, [target.name]: target.value }));
@@ -52,10 +53,7 @@ const ShoeDetail = (props) => {
     const updateShoeInfo = async (editedShoe) => {
         try {
             props.setIsLoading(true);
-            await api.put(
-                `https://637631bab5f0e1eb8505360f.mockapi.io/shoes/${params.id}`,
-                editedShoe
-            );
+            await api.put(`/shoes/${params.id}`, editedShoe);
         } catch (err) {
             if (err.response) {
                 // Not in the 200 response range
@@ -69,17 +67,15 @@ const ShoeDetail = (props) => {
             }
         } finally {
             props.setIsLoading(false);
+            navigate(-1);
         }
     };
 
-    const onDeleteShoe = async (shoeToDelete) => {
+    const onDeleteShoe = async () => {
         try {
             props.setIsLoading(true);
-            window.confirm(`Delete ${shoeToDelete.brand}?`);
-            await api.delete(
-                `https://637631bab5f0e1eb8505360f.mockapi.io/shoes/${params.id}`,
-                shoeToDelete
-            );
+            window.confirm(`Delete ?`);
+            await api.delete(`/shoes/${params.id}`);
         } catch (err) {
             if (err.response) {
                 // Not in the 200 response range
@@ -93,6 +89,7 @@ const ShoeDetail = (props) => {
             }
         } finally {
             props.setIsLoading(false);
+            navigate(-1);
         }
     };
 
@@ -139,9 +136,6 @@ const ShoeDetail = (props) => {
                             />
                         </div>
                         <div>
-                            <Btn onClick={() => onDeleteShoe(shoe)}>
-                                Delete this shoe
-                            </Btn>
                             <Btn>Submit Changes</Btn>
                         </div>
                     </form>
@@ -170,7 +164,7 @@ const ShoeDetail = (props) => {
                     <>{dataHandler(shoesData, params.id)}</>
                 )}
             </div>
-
+            <Btn onClick={() => onDeleteShoe()}>Delete this shoe</Btn>
             <Btn>
                 <NavLink
                     style={{ textDecoration: 'none', color: 'white' }}
