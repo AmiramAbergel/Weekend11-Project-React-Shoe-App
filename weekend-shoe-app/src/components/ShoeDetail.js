@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import api from '../api/api';
 import styled from '@emotion/styled';
 import { NavLink, useParams, useNavigate } from 'react-router-dom';
@@ -25,13 +25,13 @@ const ShoeDetail = (props) => {
         color: '',
         text: '',
     });
-
+    console.log(setShoesData);
     const sizeInputRef = useRef();
     const colorInputRef = useRef();
     const textInputRef = useRef();
     const [shoeById, setShoeById] = useState({});
     const navigate = useNavigate();
-
+    console.log(shoeById);
     const handleChange = ({ target }) => {
         setShoeInfo((prev) => ({ ...prev, [target.name]: target.value }));
     };

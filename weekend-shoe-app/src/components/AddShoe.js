@@ -57,7 +57,7 @@ const AddShoe = (props) => {
     };
     const [error, setError] = useState('');
     const [newShoeInfo, setNewShoeInfo] = useState(shoeObj);
-
+    console.log(error);
     const clearData = () => {
         setNewShoeInfo(shoeObj);
     };
