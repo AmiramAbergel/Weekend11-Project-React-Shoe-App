@@ -8,6 +8,7 @@ export const Div = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 `;
 
 const Form = styled.form`
@@ -96,14 +97,6 @@ const AddShoe = (props) => {
 
     return (
         <Div className='form-container'>
-            <BackBtn>
-                <NavLink
-                    style={{ textDecoration: 'none', color: 'white' }}
-                    to={`/shoes`}
-                >
-                    Back
-                </NavLink>
-            </BackBtn>
             <Form onSubmit={newShoeFormDataHandler}>
                 <div>
                     <h2>Add New Shoe</h2>
@@ -178,6 +171,14 @@ const AddShoe = (props) => {
                     <Btn>Save&Add</Btn>
                 </div>
             </Form>
+            <BackBtn>
+                <NavLink
+                    style={{ textDecoration: 'none', color: 'white' }}
+                    to={`/shoes`}
+                >
+                    Back
+                </NavLink>
+            </BackBtn>
         </Div>
     );
 };

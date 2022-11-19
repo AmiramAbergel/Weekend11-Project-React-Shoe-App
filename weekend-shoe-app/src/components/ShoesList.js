@@ -62,8 +62,10 @@ const ShoesList = (props) => {
                         <h5>Size: {shoe.size}</h5>
                         <h5>Color: {shoe.color}</h5>
                         <h5>Price (USD) : {shoe.price}</h5>
-
                         <img src={shoe.img} alt='{shoe.brand}'></img>
+                        {shoe.text ? (
+                            <p>Product description: {shoe.text}</p>
+                        ) : null}
                     </NavLink>
                 </Li>
             );
