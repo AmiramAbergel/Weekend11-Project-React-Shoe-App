@@ -18,8 +18,8 @@ const ShoeDetail = (props) => {
     const sizeInputRef = useRef();
     const colorInputRef = useRef();
     const textInputRef = useRef();
-
     const [shoeById, setShoeById] = useState({});
+
     const handleChange = ({ target }) => {
         setShoeInfo((prev) => ({ ...prev, [target.name]: target.value }));
     };
@@ -44,6 +44,30 @@ const ShoeDetail = (props) => {
             await api.put(
                 `https://637631bab5f0e1eb8505360f.mockapi.io/shoes/${params.id}`,
                 editedShoe
+            );
+        } catch (err) {
+            if (err.response) {
+                // Not in the 200 response range
+                console.log(err);
+                console.log(err.response.data);
+                console.log(err.response.status);
+                console.log(err.response.headers);
+            } else {
+                console.log(err.message);
+                setError(err.message);
+            }
+        } finally {
+            props.setIsLoading(false);
+        }
+    };
+
+    const onDeleteShoe = async (shoeToDelete) => {
+        try {
+            props.setIsLoading(true);
+            window.confirm(`Delete ${shoeToDelete.brand}?`);
+            await api.delete(
+                `https://637631bab5f0e1eb8505360f.mockapi.io/shoes/${params.id}`,
+                shoeToDelete
             );
         } catch (err) {
             if (err.response) {
@@ -108,6 +132,11 @@ const ShoeDetail = (props) => {
                             />
                         </div>
                         <div>
+                            <button onClick={() => onDeleteShoe(shoe)}>
+                                Delete this shoe
+                            </button>
+                        </div>
+                        <div>
                             <button>Submit Changes</button>
                         </div>
                     </form>
@@ -128,6 +157,7 @@ const ShoeDetail = (props) => {
             {!props.isLoading && !error && shoesData && (
                 <>{dataHandler(shoesData, params.id)}</>
             )}
+
             <button>
                 <NavLink to={`/shoes`}>Back</NavLink>
             </button>
